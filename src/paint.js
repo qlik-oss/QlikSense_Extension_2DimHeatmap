@@ -462,8 +462,7 @@ function setupPaint({ $, qlik }) {
             .attr("y", function (d, i) {
               return i * gridSize + gridSize/2 ;
             })
-            .style("text-anchor", "left")
-            .attr("transform", "translate(6, " + (4 + (gridSize / 2)) + ")")
+            .attr("transform", "rotate(-90)")
             .attr("class", function (d, i) {
               return ("mono" + (gridSize < smallSize ? "-small" : "") + " axis-dim-b");
             })
