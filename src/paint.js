@@ -588,8 +588,6 @@ function setupPaint({ $, qlik }) {
             })
             .style("opacity", tileOpacity)
             .on("mouseenter", function (d, i) {
-              console.log("enter");
-              console.log("color",colors[i]);
               if(!_this.inEditState()){
                 d3.selectAll('[fill="' + colors[i] + '"]')
                   .attr("class", "borderedHover");
@@ -613,12 +611,16 @@ function setupPaint({ $, qlik }) {
               })
               .attr("y", -(40 + dim2RotationOffset)) // height + gridSize
               .on("mouseenter", function (d, i) {
-                d3.selectAll('[fill="' + colors[i] + '"]')
-                  .attr("class", "borderedHover");
+                if(!_this.inEditState()){
+                  d3.selectAll('[fill="' + colors[i] + '"]')
+                    .attr("class", "borderedHover");
+                }
               })
               .on("mouseleave", function (d, i) {
-                d3.selectAll('[fill="' + colors[i] + '"]')
-                  .attr("class", "bordered");
+                if(!_this.inEditState()){
+                  d3.selectAll('[fill="' + colors[i] + '"]')
+                    .attr("class", "bordered");
+                }
               });
           }
 
