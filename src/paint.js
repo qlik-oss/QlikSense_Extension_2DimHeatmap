@@ -588,18 +588,24 @@ function setupPaint({ $, qlik }) {
             })
             .style("opacity", tileOpacity)
             .on("mouseenter", function (d, i) {
-              d3.selectAll('[fill="' + colors[i] + '"]')
-                .attr("class", "borderedHover");
+              console.log("enter");
+              console.log("color",colors[i]);
+              if(!_this.inEditState()){
+                d3.selectAll('[fill="' + colors[i] + '"]')
+                  .attr("class", "borderedHover");
+              }
             })
             .on("mouseleave", function (d, i) {
-              d3.selectAll('[fill="' + colors[i] + '"]')
-                .attr("class", "bordered");
+              if(!_this.inEditState()){
+                d3.selectAll('[fill="' + colors[i] + '"]')
+                  .attr("class", "bordered");
+              }
             });
           if(gridSize > 30 ){
             legend.append("text")
               .attr("class", "mono" + (gridSize < smallSize ? "-small" : ""))
               .text(function (d) {
-                return (gridSize < smallSize ? "" : "≥ ") + (measurePercentage ? formatLegend(Math.round(d * 1000) / 10) + "%" : formatLegend(d > 1 ? Math.round(d) : d));
+                return (gridSize < smallSize ? "" : "≥") + (measurePercentage ? formatLegend(Math.round(d * 1000) / 10) + "%" : formatLegend(d > 1 ? Math.round(d) : d));
               })
               .style('fill', labelColor.color)
               .attr("x", function (d, i) {
