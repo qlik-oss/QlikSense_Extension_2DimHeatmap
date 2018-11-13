@@ -306,7 +306,8 @@ function setupPaint({ $, qlik }) {
         $("#" + id).css('cursor', 'default');
 
         var svg = d3.select("#" + id).append("svg:svg")
-          .attr("height", (showLegend ? 50 : 20) + dim2RotationOffset + (dim1keys.length * gridSize));
+          .attr("height", (showLegend ? 50 : 20) + dim2RotationOffset + (dim1keys.length * gridSize))
+          .style("overflow","visible");
 
         var svg_g = svg.append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -594,26 +595,33 @@ function setupPaint({ $, qlik }) {
               d3.selectAll('[fill="' + colors[i] + '"]')
                 .attr("class", "bordered");
             });
-          legend.append("text")
-            .attr("class", "mono" + (gridSize < smallSize ? "-small" : ""))
-            .text(function (d) {
-              return (gridSize < smallSize ? "" : "≥ ") + (measurePercentage ? formatLegend(Math.round(d * 1000) / 10) + "%" : formatLegend(d > 1 ? Math.round(d) : d));
-            })
-            .style('fill', labelColor.color)
-            .attr("x", function (d, i) {
-              return legendElementWidth * i;
-            })
-            .attr("y", -(40 + dim2RotationOffset)) // height + gridSize
-            .on("mouseenter", function (d, i) {
-              d3.selectAll('[fill="' + colors[i] + '"]')
-                .attr("class", "borderedHover");
-            })
-            .on("mouseleave", function (d, i) {
-              d3.selectAll('[fill="' + colors[i] + '"]')
-                .attr("class", "bordered");
-            });
-        }
+          if(gridSize > 30 ){
+            legend.append("text")
+              .attr("class", "mono" + (gridSize < smallSize ? "-small" : ""))
+              .text(function (d) {
+                return (gridSize < smallSize ? "" : "≥ ") + (measurePercentage ? formatLegend(Math.round(d * 1000) / 10) + "%" : formatLegend(d > 1 ? Math.round(d) : d));
+              })
+              .style('fill', labelColor.color)
+              .attr("x", function (d, i) {
+                return legendElementWidth * i;
+              })
+              .attr("y", -(40 + dim2RotationOffset)) // height + gridSize
+              .on("mouseenter", function (d, i) {
+                d3.selectAll('[fill="' + colors[i] + '"]')
+                  .attr("class", "borderedHover");
+              })
+              .on("mouseleave", function (d, i) {
+                d3.selectAll('[fill="' + colors[i] + '"]')
+                  .attr("class", "bordered");
+              });
+          }
 
+          if(!_this.inEditState()){
+            legend.append("title").text(function (d) {
+              return (gridSize < smallSize ? "" : "≥ ") + (measurePercentage ? formatLegend(Math.round(d * 1000) / 10) + "%" : formatLegend(d > 1 ? Math.round(d) : d));
+            });
+          }
+        }
         if (qlik.navigation.getMode() === "analysis" && lassoSelection) {
           // Create the area where the lasso event can be triggered
           var lasso_area = svg_g_lasso;
