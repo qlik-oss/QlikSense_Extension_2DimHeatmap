@@ -434,11 +434,13 @@ function setupPaint({ $, qlik }) {
             .style('fill', labelColor.color)
             .on("click", dim1Click)
             .on("mouseenter", function (d, i) {
-              d3.selectAll('[dim1="' + i + '"]')
-                .classed({
-                  "bordered": false,
-                  "borderedHover": true
-                });
+              if(!_this.inEditState()){
+                d3.selectAll('[dim1="' + i + '"]')
+                  .classed({
+                    "bordered": false,
+                    "borderedHover": true
+                  });
+              }
             })
             .on("mouseleave", function (d, i) {
               d3.selectAll('[dim1="' + i + '"]')
@@ -470,11 +472,13 @@ function setupPaint({ $, qlik }) {
             .style('fill', labelColor.color)
             .on("click", dim2Click)
             .on("mouseenter", function (d, i) {
-              d3.selectAll('[dim2="' + i + '"]')
-                .classed({
-                  "bordered": false,
-                  "borderedHover": true
-                });
+              if(!_this.inEditState()){
+                d3.selectAll('[dim2="' + i + '"]')
+                  .classed({
+                    "bordered": false,
+                    "borderedHover": true
+                  });
+              }
             })
             .on("mouseleave", function (d, i) {
               d3.selectAll('[dim2="' + i + '"]')
@@ -523,11 +527,13 @@ function setupPaint({ $, qlik }) {
           .style("opacity", tileOpacity)
           .on("click", tileClick)
           .on("mouseenter", function () {
-            d3.select(this)
-              .classed({
-                "bordered": false,
-                "borderedHover": true
-              });
+            if(!_this.inEditState()){
+              d3.select(this)
+                .classed({
+                  "bordered": false,
+                  "borderedHover": true
+                });
+            }
           })
           .on("mouseleave", function () {
             d3.select(this)
