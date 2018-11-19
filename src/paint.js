@@ -594,16 +594,19 @@ function setupPaint({ $, qlik }) {
             })
             .style("opacity", tileOpacity)
             .on("mouseenter", function (d, i) {
-              if(!_this.inEditState()){
-                d3.selectAll('[fill="' + colors[i] + '"]')
-                  .attr("class", "borderedHover");
-              }
+              // if(!_this.inEditState()){
+              d3.selectAll('[fill="' + colors[i] + '"]')
+                // .attr("class", "borderedHover");
+                .toggleClass('is-edit-mode', _this.inEditState());
+              // }
             })
             .on("mouseleave", function (d, i) {
-              if(!_this.inEditState()){
-                d3.selectAll('[fill="' + colors[i] + '"]')
-                  .attr("class", "bordered");
-              }
+              // if(!_this.inEditState()){
+              d3.selectAll('[fill="' + colors[i] + '"]')
+                // .attr("class", "bordered");
+                .toggleClass('is-edit-mode', _this.inEditState());
+
+              // }
             });
           if(gridSize > 30 ){
             legend.append("text")
@@ -617,16 +620,12 @@ function setupPaint({ $, qlik }) {
               })
               .attr("y", -(40 + dim2RotationOffset)) // height + gridSize
               .on("mouseenter", function (d, i) {
-                if(!_this.inEditState()){
-                  d3.selectAll('[fill="' + colors[i] + '"]')
-                    .attr("class", "borderedHover");
-                }
+                d3.selectAll('[fill="' + colors[i] + '"]')
+                  .toggleClass('is-edit-mode', _this.inEditState());
               })
               .on("mouseleave", function (d, i) {
-                if(!_this.inEditState()){
-                  d3.selectAll('[fill="' + colors[i] + '"]')
-                    .attr("class", "bordered");
-                }
+                d3.selectAll('[fill="' + colors[i] + '"]')
+                  .toggleClass('is-edit-mode', _this.inEditState());
               });
           }
 
