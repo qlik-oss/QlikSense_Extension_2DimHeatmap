@@ -434,19 +434,17 @@ function setupPaint({ $, qlik }) {
             .style('fill', labelColor.color)
             .on("click", dim1Click)
             .on("mouseenter", function (d, i) {
-              if(!_this.inEditState()){
-                d3.selectAll('[dim1="' + i + '"]')
-                  .classed({
-                    "bordered": false,
-                    "borderedHover": true
-                  });
-              }
+              d3.selectAll('[dim1="' + i + '"]')
+                .classed({
+                  "bordered": _this.inEditState(),
+                  "borderedHover": !_this.inEditState()
+                });
             })
             .on("mouseleave", function (d, i) {
               d3.selectAll('[dim1="' + i + '"]')
                 .classed({
-                  "bordered": true,
-                  "borderedHover": false
+                  "bordered": _this.inEditState(),
+                  "borderedHover": !_this.inEditState()
                 });
             })
             .append("title").text(function (d, i) {
@@ -472,19 +470,17 @@ function setupPaint({ $, qlik }) {
             .style('fill', labelColor.color)
             .on("click", dim2Click)
             .on("mouseenter", function (d, i) {
-              if(!_this.inEditState()){
-                d3.selectAll('[dim2="' + i + '"]')
-                  .classed({
-                    "bordered": false,
-                    "borderedHover": true
-                  });
-              }
+              d3.selectAll('[dim2="' + i + '"]')
+                .classed({
+                  "bordered": !_this.inEditState(),
+                  "borderedHover": _this.inEditState()
+                });
             })
             .on("mouseleave", function (d, i) {
               d3.selectAll('[dim2="' + i + '"]')
                 .classed({
-                  "bordered": true,
-                  "borderedHover": false
+                  "bordered": _this.inEditState(),
+                  "borderedHover": !_this.inEditState()
                 });
             })
             .append("title").text(function (d, i) {
@@ -527,19 +523,17 @@ function setupPaint({ $, qlik }) {
           .style("opacity", tileOpacity)
           .on("click", tileClick)
           .on("mouseenter", function () {
-            if(!_this.inEditState()){
-              d3.select(this)
-                .classed({
-                  "bordered": false,
-                  "borderedHover": true
-                });
-            }
+            d3.select(this)
+              .classed({
+                "bordered": _this.inEditState(),
+                "borderedHover": !_this.inEditState()
+              });
           })
           .on("mouseleave", function () {
             d3.select(this)
               .classed({
-                "bordered": true,
-                "borderedHover": false
+                "bordered": _this.inEditState(),
+                "borderedHover": !_this.inEditState()
               });
           });
         if(!_this.inEditState()){
@@ -594,19 +588,13 @@ function setupPaint({ $, qlik }) {
             })
             .style("opacity", tileOpacity)
             .on("mouseenter", function (d, i) {
-              // if(!_this.inEditState()){
               d3.selectAll('[fill="' + colors[i] + '"]')
-                // .attr("class", "borderedHover");
-                .toggleClass('is-edit-mode', _this.inEditState());
-              // }
+                .toggleClass('borderedHover', _this.inEditState());
             })
             .on("mouseleave", function (d, i) {
-              // if(!_this.inEditState()){
               d3.selectAll('[fill="' + colors[i] + '"]')
-                // .attr("class", "bordered");
-                .toggleClass('is-edit-mode', _this.inEditState());
+                .toggleClass('bordered', _this.inEditState());
 
-              // }
             });
           if(gridSize > 30 ){
             legend.append("text")
@@ -621,11 +609,11 @@ function setupPaint({ $, qlik }) {
               .attr("y", -(40 + dim2RotationOffset)) // height + gridSize
               .on("mouseenter", function (d, i) {
                 d3.selectAll('[fill="' + colors[i] + '"]')
-                  .toggleClass('is-edit-mode', _this.inEditState());
+                  .toggleClass('borderedHover', _this.inEditState());
               })
               .on("mouseleave", function (d, i) {
                 d3.selectAll('[fill="' + colors[i] + '"]')
-                  .toggleClass('is-edit-mode', _this.inEditState());
+                  .toggleClass('bordered', _this.inEditState());
               });
           }
 
