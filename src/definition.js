@@ -8,6 +8,14 @@ const definition = {
   items: {
     data:{
       uses: "data",
+      items:{
+        dimensions:{
+          disabledRef: ""
+        },
+        measures: {
+          disabledRef: ""
+        }
+      }
     },
     sorting: {
       uses: "sorting"
@@ -94,21 +102,6 @@ const definition = {
               defaultValue: 18,
               expression: "optional"
             },
-            lassoSelection: {
-              type: "boolean",
-              component: "switch",
-              translation: "Lasso Selection",
-              ref: "lassoSelection",
-              defaultValue: true,
-              trueOption: {
-                value: true,
-                translation: "properties.on"
-              },
-              falseOption: {
-                value: false,
-                translation: "properties.off"
-              }
-            }
           }
         },
         design:{
@@ -214,21 +207,6 @@ const definition = {
               min: 0,
               max: 1,
               step: 0.02
-            },
-            lassoSelection: {
-              type: "boolean",
-              component: "switch",
-              translation: "Lasso Selection",
-              ref: "lassoSelection",
-              defaultValue: true,
-              trueOption: {
-                value: true,
-                translation: "properties.on"
-              },
-              falseOption: {
-                value: false,
-                translation: "properties.off"
-              }
             }
           }
         }
