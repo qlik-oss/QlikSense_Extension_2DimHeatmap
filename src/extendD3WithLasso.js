@@ -1,3 +1,12 @@
+/*
+  Copyright (c) 2015-2016, Speros Kokenes
+  All rights reserved.
+
+  Distributed under BSD-3 license
+
+  Repository: https://github.com/skokenes/D3-Lasso-Plugin
+*/
+
 import * as d3 from 'd3';
 
 d3.lasso = function () {
