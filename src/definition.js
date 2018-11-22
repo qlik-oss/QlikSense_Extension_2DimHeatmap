@@ -68,7 +68,7 @@ const definition = {
             minScale: {
               ref: "minScale",
               type: "number",
-              label: "min. Scale Value",
+              label: "Min Scale Value",
               defaultValue: 0,
               expression: "optional",
               show: function (layout) {
@@ -78,7 +78,7 @@ const definition = {
             maxScale: {
               ref: "maxScale",
               type: "number",
-              label: "max. Scale Value",
+              label: "Max Scale Value",
               defaultValue: 1,
               expression: "optional",
               show: function (layout) {
@@ -88,7 +88,7 @@ const definition = {
             meanScale: {
               ref: "meanScale",
               type: "number",
-              label: "mean Scale Value",
+              label: "Mean Scale Value",
               defaultValue: 0,
               expression: "optional",
               show: function (layout) {
@@ -98,7 +98,7 @@ const definition = {
             maxGridColums: {
               ref: "maxGridColums",
               type: "integer",
-              label: "Max. Columns for Grid",
+              label: "Minimum Horizontal Size",
               defaultValue: 18,
               expression: "optional"
             },
@@ -188,13 +188,13 @@ const definition = {
             dim1LabelSize: {
               ref: "dim1LabelSize",
               type: "integer",
-              label: "Dim1 Label Size (left)",
+              label: "Y-axis Label Size",
               defaultValue: 12
             },
             dim2LabelSize: {
               ref: "dim2LabelSize",
               type: "integer",
-              label: "Dim2 Label Size (right/rotate left)",
+              label: "X-Axis Label Size",
               defaultValue: 2
             },
             tileOpacity: {
