@@ -305,7 +305,9 @@ function setupPaint({ $, qlik }) {
         $("#" + id).css('cursor', 'default');
 
         var svg = d3.select("#" + id).append("svg:svg")
-          .attr("height", (showLegend ? 50 : 20) + dim2RotationOffset + (dim1keys.length * gridSize));
+          .attr("height", (showLegend ? 50 : 20) + dim2RotationOffset + (dim1keys.length * gridSize))
+          .style("overflow","visible")
+          .classed('in-edit-mode',_this.inEditState());
 
         var svg_g = svg.append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -461,8 +463,7 @@ function setupPaint({ $, qlik }) {
             .attr("y", function (d, i) {
               return i * gridSize + gridSize/2 ;
             })
-            .style("text-anchor", "left")
-            .attr("transform", "translate(6, " + (4 + (gridSize / 2)) + ")")
+            .attr("transform", "rotate(-90)")
             .attr("class", function (d, i) {
               return ("mono" + (gridSize < smallSize ? "-small" : "") + " axis-dim-b");
             })
@@ -588,30 +589,50 @@ function setupPaint({ $, qlik }) {
             .style("opacity", tileOpacity)
             .on("mouseenter", function (d, i) {
               d3.selectAll('[fill="' + colors[i] + '"]')
-                .attr("class", "borderedHover");
+                .classed({
+                  "bordered": false,
+                  "borderedHover": true
+                });
             })
             .on("mouseleave", function (d, i) {
               d3.selectAll('[fill="' + colors[i] + '"]')
-                .attr("class", "bordered");
+                .classed({
+                  "bordered": true,
+                  "borderedHover": false
+                });
             });
-          legend.append("text")
-            .attr("class", "mono" + (gridSize < smallSize ? "-small" : ""))
-            .text(function (d) {
+          if(gridSize > 30 ){
+            legend.append("text")
+              .attr("class", "mono" + (gridSize < smallSize ? "-small" : ""))
+              .text(function (d) {
+                return (gridSize < smallSize ? "" : "≥") + (measurePercentage ? formatLegend(Math.round(d * 1000) / 10) + "%" : formatLegend(d > 1 ? Math.round(d) : d));
+              })
+              .style('fill', labelColor.color)
+              .attr("x", function (d, i) {
+                return legendElementWidth * i;
+              })
+              .attr("y", -(40 + dim2RotationOffset)) // height + gridSize
+              .on("mouseenter", function (d, i) {
+                d3.selectAll('[fill="' + colors[i] + '"]')
+                  .classed({
+                    "bordered": false,
+                    "borderedHover": true
+                  });
+              })
+              .on("mouseleave", function (d, i) {
+                d3.selectAll('[fill="' + colors[i] + '"]')
+                  .classed({
+                    "bordered": true,
+                    "borderedHover": false
+                  });
+              });
+          }
+
+          if(!_this.inEditState()){
+            legend.append("title").text(function (d) {
               return (gridSize < smallSize ? "" : "≥ ") + (measurePercentage ? formatLegend(Math.round(d * 1000) / 10) + "%" : formatLegend(d > 1 ? Math.round(d) : d));
-            })
-            .style('fill', labelColor.color)
-            .attr("x", function (d, i) {
-              return legendElementWidth * i;
-            })
-            .attr("y", -(40 + dim2RotationOffset)) // height + gridSize
-            .on("mouseenter", function (d, i) {
-              d3.selectAll('[fill="' + colors[i] + '"]')
-                .attr("class", "borderedHover");
-            })
-            .on("mouseleave", function (d, i) {
-              d3.selectAll('[fill="' + colors[i] + '"]')
-                .attr("class", "bordered");
             });
+          }
         }
 
         if (qlik.navigation.getMode() === "analysis") {

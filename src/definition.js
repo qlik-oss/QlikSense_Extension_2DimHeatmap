@@ -124,8 +124,8 @@ const definition = {
                 {
                   label: "Qlik Sense Diverging",
                   component: "color-scale",
-                  value: "#3C52A1, #3A82C4, #69ACDE, #9FD0F1, #CFEAFA, #EEDCC5, #F4AA73, #E67A56, #CD473E, #AE1C3E",
-                  colors: ["#3C52A1", "#3A82C4", "#69ACDE", "#9FD0F1", "#CFEAFA", "#EEDCC5", "#F4AA73", "#E67A56", "#CD473E", "#AE1C3E"]
+                  value: "#3c52a1, #3a82c4, #69acde, #9fd0f1, #cfeafa, #eedcc5, #f4aa73, #e67a56, #cd473e, #ae1c3e",
+                  colors: ["#3c52a1", "#3a82c4", "#69acde", "#9fd0f1", "#cfeafa", "#eedcc5", "#f4aa73", "#e67a56", "#cd473e", "#ae1c3e"]
                 },
                 {
                   label: "Diverging RdYlBu",
