@@ -51,10 +51,9 @@ Also, you can use a lasso to make a two-dimensional selection:
 1. **max. Scale Value**: expression for maximal value to define end of color scale
 1. **mean Scale Value**: expression for mean value to define middle of color scale, set to 0 when no mean should be used
 1. **Show Legend**: show/hide legend
-1. **Dim1 Label Size (left)**: max. amount characters shown of 1st dimension label (from left)
-1. **Dim2 Label Size (right/rotate left)**: max. amount characters shown of 2nd dimension label (from right, or from left if rotated)
-1. **Rotate Dim2 Labels by -90°**: rotate labels counterclockwise, better for more readable labels above small tiles
-1. **Max. Columns for Grid**: expression to get max. amount of values of 2nd dimension to have a more stable grid layout
+1. **Y-Axis Label Size**: max. amount characters shown of 1st dimension label
+1. **X-Axis Label Size**: max. amount characters shown of 2nd dimension label
+1. **Minimum Horizontal Size**: expression to always get a minimun number of columns regardless of 2nd dimension size to have a more stable grid layout
 1. **Height Factor**: a multiplier to change rectangular high of tile (default=1, 100% - same size as width)
 1. **Least Tiles in Row**: filter rows (1st dimension) with less than minimum amount of tiles (default=1; no filtering)
 1. **Localized Number Format**: use a localized number format for decimal and thousands separator
