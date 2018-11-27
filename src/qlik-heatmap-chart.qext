@@ -1,6 +1,6 @@
 {
   "name": "Heatmap chart",
-  "description": "Show a matrix of color values with two dimensions and a measure.",
+  "description": "A matrix of colors based on two dimensions and a measure",
   "type" : "visualization",
   "version": "X.Y.Z",
   "icon" : "high-resolution",
