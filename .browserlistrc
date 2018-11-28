@@ -2,7 +2,8 @@
   "presets": [
     ["env", {
       "targets": {
-        "chrome": "47"
+        "chrome": "47",
+        "ie": 10
       }
     }]
   ]
