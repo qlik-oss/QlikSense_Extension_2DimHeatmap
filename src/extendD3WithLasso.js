@@ -162,48 +162,61 @@ d3.lasso = function () {
       var path_node = calc_path.node();
       var path_length_end = path_node.getTotalLength();
 
+      function findEdges (d) {
+        var a;
+        if (d.lassoPoint.cy === cur_pos_obj.y && d.lassoPoint.cy != prior_pos_obj.y) {
+          last_known_point = {
+            x: prior_pos_obj.x,
+            y: prior_pos_obj.y
+          };
+          a = false;
+        } else if (d.lassoPoint.cy === cur_pos_obj.y && d.lassoPoint.cy === prior_pos_obj.y) {
+          a = false;
+        } else if (d.lassoPoint.cy === prior_pos_obj.y && d.lassoPoint.cy != cur_pos_obj.y) {
+          a = sign(d.lassoPoint.cy - cur_pos_obj.y) != sign(d.lassoPoint.cy - last_known_point.y);
+        } else {
+          last_known_point = {
+            x: prior_pos_obj.x,
+            y: prior_pos_obj.y
+          };
+          a = sign(d.lassoPoint.cy - cur_pos_obj.y) != sign(d.lassoPoint.cy - prior_pos_obj.y);
+        }
+        return a;
+      }
+
+      function defineEdges (d) {
+        if (cur_pos_obj.x > d.lassoPoint.cx) {
+          d.lassoPoint.edges.right += 1;
+        }
+        if (cur_pos_obj.x < d.lassoPoint.cx) {
+          d.lassoPoint.edges.left += 1;
+        }
+      }
+
+      const itemsByYCoord = {};
+      items[0].forEach(item => {
+        if (itemsByYCoord[item.lassoPoint.cy]) {
+          itemsByYCoord[item.lassoPoint.cy].push(item);
+        } else {
+          itemsByYCoord[item.lassoPoint.cy] = [item];
+        }
+      });
+
       for (var i = path_length_start; i <= path_length_end; i++) {
         var cur_pos = path_node.getPointAtLength(i);
         var cur_pos_obj = {
-          x: Math.round(cur_pos.x * 100) / 100,
-          y: Math.round(cur_pos.y * 100) / 100,
+          x: Math.round(cur_pos.x),
+          y: Math.round(cur_pos.y),
         };
         var prior_pos = path_node.getPointAtLength(i - 1);
         var prior_pos_obj = {
-          x: Math.round(prior_pos.x * 100) / 100,
-          y: Math.round(prior_pos.y * 100) / 100,
+          x: Math.round(prior_pos.x),
+          y: Math.round(prior_pos.y),
         };
 
-        items[0].filter(function (d) {
-          var a;
-          if (d.lassoPoint.cy === cur_pos_obj.y && d.lassoPoint.cy != prior_pos_obj.y) {
-            last_known_point = {
-              x: prior_pos_obj.x,
-              y: prior_pos_obj.y
-            };
-            a = false;
-          } else if (d.lassoPoint.cy === cur_pos_obj.y && d.lassoPoint.cy === prior_pos_obj.y) {
-            a = false;
-          } else if (d.lassoPoint.cy === prior_pos_obj.y && d.lassoPoint.cy != cur_pos_obj.y) {
-            a = sign(d.lassoPoint.cy - cur_pos_obj.y) != sign(d.lassoPoint.cy - last_known_point.y);
-          } else {
-            last_known_point = {
-              x: prior_pos_obj.x,
-              y: prior_pos_obj.y
-            };
-            a = sign(d.lassoPoint.cy - cur_pos_obj.y) != sign(d.lassoPoint.cy - prior_pos_obj.y);
-          }
-          return a;
-        }).forEach(function (d) {
-          if (cur_pos_obj.x > d.lassoPoint.cx) {
-            d.lassoPoint.edges.right = d.lassoPoint.edges.right + 1;
-          }
-          if (cur_pos_obj.x < d.lassoPoint.cx) {
-            d.lassoPoint.edges.left = d.lassoPoint.edges.left + 1;
-          }
-        });
+        itemsByYCoord[cur_pos_obj.y] && itemsByYCoord[cur_pos_obj.y].filter(findEdges).forEach(defineEdges);
+        itemsByYCoord[prior_pos_obj.y] && itemsByYCoord[prior_pos_obj.y].filter(findEdges).forEach(defineEdges);
       }
-
 
       if (isPathClosed == true && closePathSelect == true) {
         close_path.attr("d", close_draw_path);
@@ -238,20 +251,10 @@ d3.lasso = function () {
         });
       }
 
-      // Tag possible items
-      d3.selectAll(items[0].filter(function (d) {
-        return (d.loopSelected && isPathClosed) || d.hoverSelected;
-      }))
-        .each(function (d) {
-          d.possible = true;
-        });
-
-      d3.selectAll(items[0].filter(function (d) {
-        return !((d.loopSelected && isPathClosed) || d.hoverSelected);
-      }))
-        .each(function (d) {
-          d.possible = false;
-        });
+      d3.selectAll(items[0]).each(function (d, i) {
+        const entry = items[0][i];
+        d.possible = (entry.loopSelected && isPathClosed) || entry.hoverSelected;
+      });
 
       on.draw();
 
