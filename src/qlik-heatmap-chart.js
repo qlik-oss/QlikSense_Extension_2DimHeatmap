@@ -20,7 +20,7 @@ const define = (global && global.define) || define;
 import definition from './definition';
 import paintSetup from './paint';
 import './styles/qlik-heatmap-chart.less';
-import "@babel/polyfill";
+import '@babel/polyfill';
 
 const dependencies = [
   'module',

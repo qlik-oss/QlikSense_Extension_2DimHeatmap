@@ -383,7 +383,7 @@ function setupPaint({ $, qlik }) {
             // select element (no lasso selection) since lasso blocks click event
             var el = lasso.firstElement();
             if (el) {
-              el.dispatchEvent(new MouseEvent("click"));
+              $(el).trigger('click');
             }
           }
         };
@@ -403,7 +403,7 @@ function setupPaint({ $, qlik }) {
           tileClick = function (d, i) {
             const getSelectedTiles = () => lasso.items().filter(i => i.selected);
 
-            if(window.event.button === 0 && getSelectedTiles().size() <= 1) {
+            if(d3.event.button === 0 && getSelectedTiles().size() <= 1) {
               if (dim1keys.length > 1 && d.Element1 >= 0) {
                 _this.backendApi.selectValues(0, [d.Element1], false);
               }
