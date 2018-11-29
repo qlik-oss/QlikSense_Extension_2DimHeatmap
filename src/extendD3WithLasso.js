@@ -172,7 +172,7 @@ d3.lasso = function () {
           a = false;
         } else if (d.lassoPoint.cy === cur_pos_obj.y && d.lassoPoint.cy === prior_pos_obj.y) {
           a = false;
-        } else if (d.lassoPoint.cy === prior_pos_obj.y && d.lassoPoint.cy != cur_pos_obj.y) {
+        } else if (d.lassoPoint.cy === prior_pos_obj.y && d.lassoPoint.cy != cur_pos_obj.y && last_known_point) {
           a = sign(d.lassoPoint.cy - cur_pos_obj.y) != sign(d.lassoPoint.cy - last_known_point.y);
         } else {
           last_known_point = {
