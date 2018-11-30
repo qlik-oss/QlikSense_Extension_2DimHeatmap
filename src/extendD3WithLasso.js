@@ -193,6 +193,13 @@ d3.lasso = function () {
         }
       }
 
+      function defineEdgesForYSlice (yCoord) {
+        if (itemsByYCoord[yCoord]) {
+          const foundEdges = itemsByYCoord[yCoord].filter(findEdges);
+          foundEdges.forEach(defineEdges);
+        }
+      }
+
       const itemsByYCoord = {};
       items[0].forEach(item => {
         if (itemsByYCoord[item.lassoPoint.cy]) {
@@ -205,17 +212,22 @@ d3.lasso = function () {
       for (var i = path_length_start; i <= path_length_end; i++) {
         var cur_pos = path_node.getPointAtLength(i);
         var cur_pos_obj = {
-          x: Math.round(cur_pos.x),
-          y: Math.round(cur_pos.y),
+          x: Math.round(cur_pos.x * 100) / 100,
+          y: Math.round(cur_pos.y * 100) / 100,
         };
         var prior_pos = path_node.getPointAtLength(i - 1);
         var prior_pos_obj = {
-          x: Math.round(prior_pos.x),
-          y: Math.round(prior_pos.y),
+          x: Math.round(prior_pos.x * 100) / 100,
+          y: Math.round(prior_pos.y * 100) / 100,
         };
 
-        itemsByYCoord[cur_pos_obj.y] && itemsByYCoord[cur_pos_obj.y].filter(findEdges).forEach(defineEdges);
-        itemsByYCoord[prior_pos_obj.y] && itemsByYCoord[prior_pos_obj.y].filter(findEdges).forEach(defineEdges);
+        const priorYInt = Math.round(prior_pos_obj.y);
+        const currentYInt = Math.round(cur_pos_obj.y);
+
+        defineEdgesForYSlice(priorYInt);
+        if (priorYInt !== currentYInt) {
+          defineEdgesForYSlice(currentYInt);
+        }
       }
 
       if (isPathClosed == true && closePathSelect == true) {
