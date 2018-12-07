@@ -63,8 +63,8 @@ function setupPaint({ $, qlik }) {
         // for the grouping dimension(s), and the metric(s)
         if (d.length > 3) {
           return {
-            "Dim1": d[0].qText,
-            "Dim2": d[1].qText,
+            "Dim1": d[0].qText || "",
+            "Dim2": d[1].qText || "",
             "Dim1Num": d[0].qNum,
             "Dim2Num": d[1].qNum,
             "Element1": d[0].qElemNumber,
@@ -76,8 +76,8 @@ function setupPaint({ $, qlik }) {
           };
         } else {
           return {
-            "Dim1": d[0].qText,
-            "Dim2": d[1].qText,
+            "Dim1": d[0].qText || "",
+            "Dim2": d[1].qText || "",
             "Dim1Num": d[0].qNum,
             "Dim2Num": d[1].qNum,
             "Element1": d[0].qElemNumber,
