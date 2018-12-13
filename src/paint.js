@@ -294,7 +294,7 @@ function setupPaint({ $, qlik }) {
           .range(colors);
 
         gridSize = Math.floor((width - margin.left - margin.right) / gridDivider);
-        if (thresholdClasses === "minimum" || gridSize <= thresholds.minimum){
+        if (gridSize <= thresholds.minimum){
           gridSize = thresholds.minimum;
         }
         const thresholdClasses = getThresholdClasses(gridSize);
@@ -334,10 +334,21 @@ function setupPaint({ $, qlik }) {
             }); // style as not possible
         };
 
+        let previousItemPossible = [];
+
         var lasso_draw = function () {
+          const currentItems = lasso.items();
+          const changedItems = currentItems.filter(function(item, index) {
+            if (previousItemPossible[index] === item.possible) {
+              return false;
+            }
+            previousItemPossible[index] = item.possible;
+            return true;
+          });
+
           // Style the possible dots
-          lasso.items().filter(function (d) {
-            return d.possible === true;
+          changedItems.filter(function (item) {
+            return item.possible === true;
           })
             .classed({
               "not-possible": false,
@@ -345,8 +356,8 @@ function setupPaint({ $, qlik }) {
             });
 
           // Style the not possible dot
-          lasso.items().filter(function (d) {
-            return d.possible === false;
+          changedItems.filter(function (item) {
+            return item.possible === false;
           })
             .classed({
               "not-possible": true,
