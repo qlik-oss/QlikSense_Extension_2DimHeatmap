@@ -611,6 +611,22 @@ function setupPaint({ $, qlik }) {
                   "bordered": true,
                   "borderedHover": false
                 });
+            })
+            .on('click', function (d , i){
+              var tilesArray = d3.selectAll('[fill="' + colors[i] + '"]');
+              var diemensionOneElm = tilesArray[0].map(e => {
+                return e.__data__.Element1;
+              });
+              var diemensionTwoElm = tilesArray[0].map(e => {
+                return e.__data__.Element2;
+              });
+
+              if (dim1keys.length > 1) {
+                _this.backendApi.selectValues(0, diemensionOneElm, true);
+              }
+              if (dim2keys.length > 1) {
+                _this.backendApi.selectValues(1, diemensionTwoElm, true);
+              }
             });
           if(gridSize > 30 ){
             legend.append("text")
