@@ -8,7 +8,10 @@ function setupPaint({ $, qlik }) {
 
   return function ($element, layout) {
     // Call irregularUtils to page the data for > 10000 points
-    const maxPages = qlik.navigation.getMode() === "analysis" ? 10 : 1;
+    const maxPages = this.inAnalysisState() ? 10 : 1;
+    const enableTooltips = this.options.tooltips;
+    const enableSelections = this.options.selections;
+
     pageExtensionData(this, $element, layout, heatMap, maxPages);
 
     function heatMap($element, layout, fullMatrix, _this) {
@@ -124,7 +127,7 @@ function setupPaint({ $, qlik }) {
         }).css({
           height: height,
           width: width,
-          overflow: _this.inEditState() ? "hidden" : "auto"
+          overflow: !_this.inAnalysisState() ? "hidden" : "auto"
         }));
       }
 
@@ -307,7 +310,7 @@ function setupPaint({ $, qlik }) {
         var svg = d3.select("#" + id).append("svg:svg")
           .attr("height", (showLegend ? 50 : 20) + dim2RotationOffset + (dim1keys.length * gridSize))
           .style("overflow","visible")
-          .classed('in-edit-mode',_this.inEditState());
+          .classed('in-edit-mode', !_this.inAnalysisState());
 
         var svg_g = svg.append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -402,7 +405,7 @@ function setupPaint({ $, qlik }) {
         var dim1Click = function (d, i) {};
         var dim2Click = function (d, i) {};
         var tileClick = function (d, i) {};
-        if (qlik.navigation.getMode() === "analysis") {
+        if (enableSelections) {
           dim1Click = function (d, i) {
             if (dim1Elements[i] >= 0)
               _this.backendApi.selectValues(0, [dim1Elements[i]], true);
@@ -547,7 +550,7 @@ function setupPaint({ $, qlik }) {
                 "borderedHover": false
               });
           });
-        if(!_this.inEditState()){
+        if(enableTooltips){
           heat.append("title").text(titleText);
         }
 
@@ -639,14 +642,14 @@ function setupPaint({ $, qlik }) {
               });
           }
 
-          if(!_this.inEditState()){
+          if(enableTooltips){
             legend.append("title").text(function (d) {
               return (gridSize < smallSize ? "" : "≥ ") + (measurePercentage ? formatLegend(Math.round(d * 1000) / 10) + "%" : formatLegend(d > 1 ? Math.round(d) : d));
             });
           }
         }
 
-        if (qlik.navigation.getMode() === "analysis") {
+        if (enableSelections) {
           // Create the area where the lasso event can be triggered
           var lasso_area = svg_g_lasso;
 
