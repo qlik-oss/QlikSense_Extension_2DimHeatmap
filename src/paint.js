@@ -608,15 +608,15 @@ function setupPaint({ $, qlik }) {
               return colors[i];
             })
             .style("opacity", tileOpacity)
-            .on("mouseenter", function (d, i) {
-              d3.selectAll('[fill="' + colors[i] + '"]')
+            .on("mouseenter", function (dataObject, index) {
+              d3.selectAll('[fill="' + colors[index] + '"]')
                 .classed({
                   "bordered": false,
                   "borderedHover": true
                 });
             })
-            .on("mouseleave", function (d, i) {
-              d3.selectAll('[fill="' + colors[i] + '"]')
+            .on("mouseleave", function (dataObject, index) {
+              d3.selectAll('[fill="' + colors[index] + '"]')
                 .classed({
                   "bordered": true,
                   "borderedHover": false
