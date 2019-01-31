@@ -416,10 +416,20 @@ function setupPaint({ $, qlik }) {
 
             if(d3.event.button === 0 && getSelectedTiles().size() <= 1) {
               if (dim1keys.length > 1 && d.Element1 >= 0) {
-                _this.backendApi.selectValues(0, [d.Element1], false);
+                d3.select(this)
+                  .classed({
+                    "bordered": false,
+                    "possible": true
+                  });
+                _this.selectValues(0, [d.Element1], false);
               }
               if (dim2keys.length > 1 && d.Element2 >= 0) {
-                _this.backendApi.selectValues(1, [d.Element2], false);
+                d3.select(this)
+                  .classed({
+                    "bordered": false,
+                    "possible": true
+                  });
+                _this.selectValues(1, [d.Element2], false);
               }
             }
           };
@@ -613,19 +623,19 @@ function setupPaint({ $, qlik }) {
                 });
             })
             .on('click', function (d , i){
-              var tilesArray = d3.selectAll('[fill="' + colors[i] + '"]');
-              var diemensionOneElm = tilesArray[0].map(e => {
-                return e.__data__.Element1;
+              var rectsArray = d3.selectAll('[fill="' + colors[i] + '"]');
+              var diemensionOneElement = rectsArray[0].map(rect => {
+                return rect.__data__.Element1;
               });
-              var diemensionTwoElm = tilesArray[0].map(e => {
-                return e.__data__.Element2;
+              var diemensionTwoElement = rectsArray[0].map(rect => {
+                return rect.__data__.Element2;
               });
 
               if (dim1keys.length > 1) {
-                _this.backendApi.selectValues(0, diemensionOneElm, true);
+                _this.backendApi.selectValues(0, diemensionOneElement, true);
               }
               if (dim2keys.length > 1) {
-                _this.backendApi.selectValues(1, diemensionTwoElm, true);
+                _this.backendApi.selectValues(1, diemensionTwoElement, true);
               }
             });
           if(gridSize > 30 ){
