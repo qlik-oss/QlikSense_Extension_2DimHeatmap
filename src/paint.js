@@ -8,7 +8,7 @@ function setupPaint({ $, qlik }) {
 
   return function ($element, layout) {
     // Call irregularUtils to page the data for > 10000 points
-    const maxPages = qlik.navigation.getMode() === "analysis" ? 10 : 1;
+    const maxPages = this.inEditState() ? 10 : 1;
     pageExtensionData(this, $element, layout, heatMap, maxPages);
 
     function heatMap($element, layout, fullMatrix, _this) {
@@ -402,7 +402,7 @@ function setupPaint({ $, qlik }) {
         var dim1Click = function (d, i) {};
         var dim2Click = function (d, i) {};
         var tileClick = function (d, i) {};
-        if (qlik.navigation.getMode() === "analysis") {
+        if (!_this.inEditState()) {
           dim1Click = function (d, i) {
             if (dim1Elements[i] >= 0)
               _this.backendApi.selectValues(0, [dim1Elements[i]], true);
@@ -646,7 +646,7 @@ function setupPaint({ $, qlik }) {
           }
         }
 
-        if (qlik.navigation.getMode() === "analysis") {
+        if (!_this.inEditState()) {
           // Create the area where the lasso event can be triggered
           var lasso_area = svg_g_lasso;
 
