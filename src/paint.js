@@ -622,12 +622,12 @@ function setupPaint({ $, qlik }) {
                   "borderedHover": false
                 });
             })
-            .on('click', function (d , i){
-              var rectsArray = d3.selectAll('[fill="' + colors[i] + '"]');
-              var diemensionOneElement = rectsArray[0].map(rect => {
+            .on('click', function (dataObject , index){
+              var svgRectsArray = d3.selectAll('[fill="' + colors[index] + '"]');
+              var diemensionOneElement = svgRectsArray[0].map(rect => {
                 return rect.__data__.Element1;
               });
-              var diemensionTwoElement = rectsArray[0].map(rect => {
+              var diemensionTwoElement = svgRectsArray[0].map(rect => {
                 return rect.__data__.Element2;
               });
 
