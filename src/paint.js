@@ -9,8 +9,8 @@ function setupPaint({ $, qlik }) {
   return function ($element, layout) {
     // Call irregularUtils to page the data for > 10000 points
     const maxPages = this.inAnalysisState() ? 10 : 1;
-    const enableTooltips = this.options.tooltips;
-    const enableSelections = this.options.selections;
+    const enableTooltips = this.options.tooltips !== false && this.inAnalysisState();
+    const enableSelections = this.options.selections !== false && this.inAnalysisState();
 
     pageExtensionData(this, $element, layout, heatMap, maxPages);
 
