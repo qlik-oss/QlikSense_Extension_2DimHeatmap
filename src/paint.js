@@ -8,9 +8,10 @@ function setupPaint({ $, qlik }) {
 
   return function ($element, layout) {
     // Call irregularUtils to page the data for > 10000 points
-    const maxPages = this.inAnalysisState() ? 10 : 1;
-    const enableTooltips = this.options.tooltips !== false && this.inAnalysisState();
-    const enableSelections = this.options.selections !== false && this.inAnalysisState();
+    const inAnalysisState = this.inAnalysisState();
+    const maxPages = inAnalysisState ? 10 : 1;
+    const enableTooltips = this.options.tooltips !== false && inAnalysisState;
+    const enableSelections = this.options.selections !== false && inAnalysisState;
 
     pageExtensionData(this, $element, layout, heatMap, maxPages);
 
@@ -127,7 +128,7 @@ function setupPaint({ $, qlik }) {
         }).css({
           height: height,
           width: width,
-          overflow: !_this.inAnalysisState() ? "hidden" : "auto"
+          overflow: !inAnalysisState ? "hidden" : "auto"
         }));
       }
 
@@ -310,7 +311,7 @@ function setupPaint({ $, qlik }) {
         var svg = d3.select("#" + id).append("svg:svg")
           .attr("height", (showLegend ? 50 : 20) + dim2RotationOffset + (dim1keys.length * gridSize))
           .style("overflow","visible")
-          .classed('in-edit-mode', !_this.inAnalysisState());
+          .classed('in-edit-mode', !inAnalysisState);
 
         var svg_g = svg.append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
