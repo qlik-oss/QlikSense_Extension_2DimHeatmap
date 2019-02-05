@@ -20,7 +20,10 @@ const define = (global && global.define) || define;
 import definition from './definition';
 import paintSetup from './paint';
 import './styles/qlik-heatmap-chart.less';
-import '@babel/polyfill';
+
+if (!window._babelPolyfill) { //eslint-disable-line no-underscore-dangle
+  require('@babel/polyfill');
+}
 
 const dependencies = [
   'module',
