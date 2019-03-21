@@ -308,7 +308,7 @@ function setupPaint({ $, qlik }) {
 
         $("#" + id).css('cursor', 'default');
 
-        var svg = d3.select("#" + id).append("svg:svg")
+        var svg = d3.select(`#${id}`).append("svg:svg")
           .attr("height", (showLegend ? 50 : 20) + dim2RotationOffset + (dim1keys.length * gridSize))
           .style("overflow","visible")
           .classed('in-edit-mode', !inAnalysisState);
@@ -449,14 +449,14 @@ function setupPaint({ $, qlik }) {
             .style('fill', labelColor.color)
             .on("click", dim1Click)
             .on("mouseenter", function (d, i) {
-              d3.selectAll('[dim1="' + i + '"]')
+              d3.selectAll(`#${id} [dim1="${i}"]`)
                 .classed({
                   "bordered": false,
                   "borderedHover": true
                 });
             })
             .on("mouseleave", function (d, i) {
-              d3.selectAll('[dim1="' + i + '"]')
+              d3.selectAll(`#${id} [dim1="${i}"]`)
                 .classed({
                   "bordered": true,
                   "borderedHover": false
@@ -485,14 +485,14 @@ function setupPaint({ $, qlik }) {
             .style('fill', labelColor.color)
             .on("click", dim2Click)
             .on("mouseenter", function (d, i) {
-              d3.selectAll('[dim2="' + i + '"]')
+              d3.selectAll(`#${id} [dim2="${i}"]`)
                 .classed({
                   "bordered": false,
                   "borderedHover": true
                 });
             })
             .on("mouseleave", function (d, i) {
-              d3.selectAll('[dim2="' + i + '"]')
+              d3.selectAll(`#${id} [dim2="${i}"]`)
                 .classed({
                   "bordered": true,
                   "borderedHover": false
@@ -603,14 +603,14 @@ function setupPaint({ $, qlik }) {
             })
             .style("opacity", tileOpacity)
             .on("mouseenter", function (d, i) {
-              d3.selectAll('[fill="' + colors[i] + '"]')
+              d3.selectAll(`#${id} [fill="${colors[i]}"]`)
                 .classed({
                   "bordered": false,
                   "borderedHover": true
                 });
             })
             .on("mouseleave", function (d, i) {
-              d3.selectAll('[fill="' + colors[i] + '"]')
+              d3.selectAll(`#${id} [fill="${colors[i]}"]`)
                 .classed({
                   "bordered": true,
                   "borderedHover": false
@@ -628,14 +628,14 @@ function setupPaint({ $, qlik }) {
               })
               .attr("y", -(40 + dim2RotationOffset)) // height + gridSize
               .on("mouseenter", function (d, i) {
-                d3.selectAll('[fill="' + colors[i] + '"]')
+                d3.selectAll(`#${id} [fill="${colors[i]}"]`)
                   .classed({
                     "bordered": false,
                     "borderedHover": true
                   });
               })
               .on("mouseleave", function (d, i) {
-                d3.selectAll('[fill="' + colors[i] + '"]')
+                d3.selectAll(`#${id} [fill="${colors[i]}"]`)
                   .classed({
                     "bordered": true,
                     "borderedHover": false
@@ -667,7 +667,7 @@ function setupPaint({ $, qlik }) {
           //-----------------------------------------------------
 
           // Init the lasso on the svg:g that contains the dots
-          lasso.items(d3.select("#" + id).selectAll(".bordered"));
+          lasso.items(d3.select(`#${id}`).selectAll(".bordered"));
           svg_g_lasso.call(lasso);
         }
 
