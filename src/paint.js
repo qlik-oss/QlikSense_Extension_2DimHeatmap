@@ -616,12 +616,15 @@ function setupPaint({ $, qlik }) {
                   "borderedHover": false
                 });
             });
+
+          var getLegendLabel = function (value) {
+            return (gridSize < smallSize ? "" : "≥") + (measurePercentage ? formatLegend(Math.ceil(value * 1000) / 10) + "%" : formatLegend(value > 1 ? Math.ceil(value) : value));
+          };
+
           if(gridSize > 30 ){
             legend.append("text")
               .attr("class", "mono" + (gridSize < smallSize ? "-small" : ""))
-              .text(function (d) {
-                return (gridSize < smallSize ? "" : "≥") + (measurePercentage ? formatLegend(Math.round(d * 1000) / 10) + "%" : formatLegend(d > 1 ? Math.round(d) : d));
-              })
+              .text(getLegendLabel)
               .style('fill', labelColor.color)
               .attr("x", function (d, i) {
                 return legendElementWidth * i;
@@ -644,9 +647,7 @@ function setupPaint({ $, qlik }) {
           }
 
           if(enableTooltips){
-            legend.append("title").text(function (d) {
-              return (gridSize < smallSize ? "" : "≥ ") + (measurePercentage ? formatLegend(Math.round(d * 1000) / 10) + "%" : formatLegend(d > 1 ? Math.round(d) : d));
-            });
+            legend.append("title").text(getLegendLabel);
           }
         }
 
