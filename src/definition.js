@@ -209,11 +209,29 @@ const definition = {
               step: 0.02
             }
           }
+        },
+      }
+    },
+    about: {
+      component: 'items',
+      label: 'About',
+      items: {
+        header: {
+          label: 'Heatmap chart',
+          style: 'header',
+          component: 'text'
+        },
+        paragraph1: {
+          label: `A Heatmap chart displays comparative data where the values are represented as color patterns in a chart.`,
+          component: 'text'
+        },
+        paragraph2: {
+          label: 'Heatmap chart is based upon an extension created by Ralf Becher.',
+          component: 'text'
         }
       }
     }
   }
-
 };
 
 export default definition;
