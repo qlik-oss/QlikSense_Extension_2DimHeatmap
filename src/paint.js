@@ -329,7 +329,6 @@ function setupPaint({ $, qlik }) {
         var lasso_start = function () {
           // keep mouse cursor arrow instead of text select (auto)
           $("#" + id).css('cursor', 'default');
-
           // clear all of the fills
           lasso.items()
             .classed({
@@ -370,6 +369,10 @@ function setupPaint({ $, qlik }) {
         };
 
         var lasso_end = function (data) {
+          // disable selection from mouse right click
+          if(event && event.button === 2){
+            return false;
+          }
           var selectedItems = lasso.items().filter(function (d) {
             return d.selected === true;
           });
