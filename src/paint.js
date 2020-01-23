@@ -17,6 +17,7 @@ function setupPaint({ $, qlik }) {
 
     function heatMap($element, layout, fullMatrix, _this) {
       $element.empty();
+      var isLassoing = false;
 
       var app = qlik.currApp();
 
@@ -327,6 +328,7 @@ function setupPaint({ $, qlik }) {
 
         // Lasso functions to execute while lassoing
         var lasso_start = function () {
+          isLassoing = true;
           // keep mouse cursor arrow instead of text select (auto)
           $("#" + id).css('cursor', 'default');
           // clear all of the fills
@@ -421,7 +423,7 @@ function setupPaint({ $, qlik }) {
           tileClick = function (d, i) {
             const getSelectedTiles = () => lasso.items().filter(i => i.selected);
 
-            if(d3.event.button === 0 && getSelectedTiles().size() <= 1) {
+            if(d3.event.button === 0 && getSelectedTiles().size() <= 1 && !isLassoing) {
               if (dim1keys.length > 1 && d.Element1 >= 0) {
                 _this.backendApi.selectValues(0, [d.Element1], false);
               }
@@ -429,6 +431,7 @@ function setupPaint({ $, qlik }) {
                 _this.backendApi.selectValues(1, [d.Element2], false);
               }
             }
+            isLassoing = false;
           };
         }
 
