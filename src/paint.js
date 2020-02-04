@@ -543,7 +543,7 @@ function setupPaint({ $, qlik }) {
           .attr("class", "bordered")
           .attr("width", gridSize)
           .attr("height", gridSize)
-          .attr("fill", function (d) { if (fixedScale) { return colors[0]; }
+          .attr("fill", function (d) {
             return (data.length > 1 || fixedScale) ? (!isNaN(d.Metric1)) ? colorScale(d.Metric1) : 'rgba(255, 255, 255, 0)' : colors[0];
           })
           .style("opacity", tileOpacity)
