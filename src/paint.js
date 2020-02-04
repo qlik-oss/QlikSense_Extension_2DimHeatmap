@@ -37,8 +37,13 @@ function setupPaint({ $, qlik }) {
         measureMax = 0;
       var measurePercentage = false;
       if (measureLabels.length > 0 && layout.qHyperCube.qMeasureInfo.length > 0) {
-        measureMin = layout.qHyperCube.qMeasureInfo[0].qMin;
-        measureMax = layout.qHyperCube.qMeasureInfo[0].qMax;
+        if (layout.qHyperCube.length > 1) {
+          measureMin = layout.qHyperCube.qMeasureInfo[0].qMin + layout.qHyperCube.qMeasureInfo[1].qMin;
+          measureMax = layout.qHyperCube.qMeasureInfo[0].qMax + layout.qHyperCube.qMeasureInfo[1].qMax;
+        } else {
+          measureMin = layout.qHyperCube.qMeasureInfo[0].qMin;
+          measureMax = layout.qHyperCube.qMeasureInfo[0].qMax;
+        }
         if (layout.qHyperCube.qMeasureInfo[0].qNumFormat.qFmt
                           && layout.qHyperCube.qMeasureInfo[0].qNumFormat.qFmt.indexOf("%") != -1) {
           measurePercentage = true;
@@ -292,11 +297,17 @@ function setupPaint({ $, qlik }) {
             }), measureMax];
           }
         }
+        scaleDomain = [measureMin, d3.mean(data, function (d) {
+          if(d.Metric2) {
+            return +(d.Metric1+d.Metric2);
+          } else {
+            return +d.Metric1;
+          }
+        }), measureMax];
 
         var colorScale = d3.scale.quantile()
           .domain(scaleDomain)
           .range(colors);
-
         gridSize = Math.floor((width - margin.left - margin.right) / gridDivider);
         if (gridSize <= thresholds.minimum){
           gridSize = thresholds.minimum;
@@ -532,7 +543,7 @@ function setupPaint({ $, qlik }) {
           .attr("class", "bordered")
           .attr("width", gridSize)
           .attr("height", gridSize)
-          .attr("fill", function (d) {
+          .attr("fill", function (d) { if (fixedScale) { return colors[0]; }
             return (data.length > 1 || fixedScale) ? (!isNaN(d.Metric1)) ? colorScale(d.Metric1) : 'rgba(255, 255, 255, 0)' : colors[0];
           })
           .style("opacity", tileOpacity)
