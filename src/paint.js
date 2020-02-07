@@ -379,6 +379,7 @@ function setupPaint({ $, qlik }) {
             return d.selected === true;
           });
           if (selectedItems[0].length > 0) {
+            isLassoing = false;
             // Set up an array to store the data points of selected tiles
             var selectarray1 = [],
               selectarray2 = [];
@@ -423,7 +424,7 @@ function setupPaint({ $, qlik }) {
           tileClick = function (d, i) {
             const getSelectedTiles = () => lasso.items().filter(i => i.selected);
 
-            if(d3.event.button === 0 && getSelectedTiles().size() <= 1 && !isLassoing) {
+            if(d3.event.button === 0 && getSelectedTiles().size() <= 1 && isLassoing) {
               if (dim1keys.length > 1 && d.Element1 >= 0) {
                 _this.backendApi.selectValues(0, [d.Element1], false);
               }
