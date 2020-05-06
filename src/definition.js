@@ -18,7 +18,18 @@ const definition = {
       }
     },
     sorting: {
-      uses: "sorting"
+      uses: "sorting",
+      items: {
+        dimensions: {
+          items: {
+            dimension: {
+              sortingItems: {
+                expression: null,
+              },
+            },
+          },
+        },
+      },
     },
     addons: {
       uses: "addons",
