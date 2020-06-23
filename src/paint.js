@@ -298,12 +298,12 @@ function setupPaint({ $, qlik }) {
           .domain(scaleDomain)
           .range(colors);
 
-        gridSize = Math.floor((width - margin.left - margin.right) / dim2keys.length);
+        gridSize = Math.floor((width - margin.left - margin.right) / gridDivider);
         if (gridSize <= thresholds.minimum){
           gridSize = thresholds.minimum;
         }
         const thresholdClasses = getThresholdClasses(gridSize);
-        legendElementWidth = Math.floor((gridSize * dim2keys.length) / (colorScale.quantiles().length + 1));
+        legendElementWidth = Math.floor((gridSize * gridDivider) / (colorScale.quantiles().length + 1));
 
         margin.top = (showLegend ? 50 : 20) + dim2RotationOffset;
 
