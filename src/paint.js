@@ -116,7 +116,8 @@ function setupPaint({ $, qlik }) {
       // Chart object height
       var height = $element.height();
       // Chart object id
-      var id = "container_" + layout.qInfo.qId;
+      const randomId = (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+      let id = 'container_' + layout.qInfo.qId + randomId;
 
       // Check to see if the chart element has already been created
       if (document.getElementById(id)) {
